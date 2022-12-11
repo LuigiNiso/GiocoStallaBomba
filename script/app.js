@@ -13,9 +13,9 @@ var ordini = [
 var user_ordine = [];
 var ordine = [];
 
-const right = new Audio('/right.mp3');
-const wrong = new Audio('/wrong.mp3');
-const click = new Audio('/click.mp3');
+const right = new Audio('./sounds/right.mp3');
+const wrong = new Audio('./sounds/wrong.mp3');
+const click = new Audio('./sounds/click.mp3');
 var symbols;
 
 let id;
@@ -109,7 +109,7 @@ function check_simboli(l, n) {
     if (user_ordine.length == 4) {
         if (equalArray(ordine, user_ordine)) {
             led.style.backgroundColor = "greenyellow";
-            right.play
+            right.play();
         } else {
             user_ordine = [];
             setTimeout(() => {
@@ -118,7 +118,7 @@ function check_simboli(l, n) {
                 });
             }, 500);
             led.style.backgroundColor = "red";
-            wrong.play
+            wrong.play();
         }
     }
 }
