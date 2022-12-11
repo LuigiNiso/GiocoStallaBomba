@@ -215,7 +215,7 @@ function explode() {
 }
 
 function start() {
-    bomb_audio.play();
+    bomb_audio.autoplay = true;
 
     generaTimer()
     generaSimboli()
