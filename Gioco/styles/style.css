@@ -1,3 +1,8 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   margin: 0;
   display: flex;
@@ -5,6 +10,11 @@ body {
   justify-content: center;
   background-color: #404040;
   height: 100vh;
+}
+
+@font-face {
+  font-family: display;
+  src: url(../fonts/digital-7\ \(mono\).ttf);
 }
 
 *{
@@ -20,7 +30,7 @@ body {
 .bomb{
   width: 60%;
   height: 80%;
-  background-color: rgb(33, 33, 33);
+  background-color: rgb(103, 103, 103);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -59,8 +69,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100px;
-  height: 100px;
+  width: 32%;
+  height: 32%;
   background-color: #999;
   background-image: linear-gradient(180deg, #CCC, #999);
   border-top: 3px solid #CCC;
@@ -68,19 +78,18 @@ body {
   border-left: 4px solid #666;
   border-bottom: 4px solid #666;
   border-radius: 20px;
-  float: left;
   text-decoration: none;
   box-shadow:  -.1em .1em 0 #000,
-         -.2em .2em 0 #000,
-         -.3em .3em 0 #000,
-         -.4em .4em 0 #333,
-         -.5em .5em 0 #333,
-         -.6em .6em 0 #333,
-         -.7em .7em 0 #333,
-         -.9em .9em 0 #333,
+         -.1em .1em 0 #000,
+         -.1em .1em 0 #000,
+         -.1em .1em 0 #333,
+         -.1em .1em 0 #333,
+         -.1em .1em 0 #333,
+         -.1em .1em 0 #333,
+         -.1em .1em 0 #333,
          -1em 1em 0 #333,
          -1.1em 1.1em 0 #333,
-         -1.2em 1.2em 0 #333;
+         -1.1em 1.1em 0 #333;
   transition: box-shadow 0.3s,
         border-top 0.3s,
         border-right 0.3s;
@@ -143,3 +152,59 @@ body {
   background-color: #666;
 }
 
+.timer{
+  font-family: display;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 128px;
+  color: #FF0000;
+  text-shadow: 0px 0px 13px rgba(255, 27, 27, 0.6);
+  z-index: 9999;
+}
+
+.modulo-timer{
+  margin: 10px;
+  position: relative;
+  width: 30%;
+  height: 43%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+  background-color: #111;
+  position: relative;
+}
+
+.downtext{
+  position: absolute;
+  font-family: display;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50%;
+  font-size: 128px;
+  color: rgb(57, 0, 0);
+  background-color: rgb(34, 0, 0);
+  background-image: url(../images/pattern.jpg);
+  background-blend-mode: overlay;
+  background-size: cover;
+}
+
+.errors{
+  position: absolute;
+  top: 0;
+  height: 20px;
+  font-size: 75px;
+  z-index: 9999;
+  font-family: display;
+  color: #FF0000;
+  text-shadow: 0px 0px 13px rgba(255, 27, 27, 0.6);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  letter-spacing: 10px;
+}

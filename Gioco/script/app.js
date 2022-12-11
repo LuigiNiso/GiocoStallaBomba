@@ -1,3 +1,5 @@
+var errors = 0;
+
 var imgCorrect = []
 
 var bomba = document.querySelector('.bomb');
@@ -16,6 +18,7 @@ var ordine = [];
 const right = new Audio('./sounds/right.mp3');
 const wrong = new Audio('./sounds/wrong.mp3');
 const click = new Audio('./sounds/click.mp3');
+const bomb_audio = new Audio('./sounds/bomb.mp3');
 var symbols;
 
 let id;
@@ -120,6 +123,7 @@ function check_simboli(l, n) {
                 });
             }, 500);
             led.style.backgroundColor = "red";
+            error();
             wrong.play();
         }
     }
@@ -134,6 +138,45 @@ function equalArray(a, b) {
     return true;
 }
 
+var clock;
+let errors_div;
+function generaTimer() {
+    let modulo_div = document.createElement('div');
+    errors_div = document.createElement('p');
+    var timer = document.createElement('div');
+    timer.classList.add('timer');
+    errors_div.classList.add('errors')
+
+    timer.innerHTML = "05:00";
+    let downtext = document.createElement('p');
+    downtext.innerHTML = "88:88";
+    downtext.classList.add('downtext');
+    modulo_div.appendChild(downtext);
+    modulo_div.classList.add('modulo-timer');
+    modulo_div.appendChild(errors_div);
+
+    var min = 5;
+    var sec = 0;
+
+    clock = setInterval(() => {
+
+        if (sec == 0) {
+            sec = 60
+            min--;
+        }
+
+        sec--;
+        if (sec < 10) {
+            timer.innerHTML = "0" + min + ":" + "0" + sec;
+        } else {
+            timer.innerHTML = "0" + min + ":" + sec;
+        }
+    }, 1000);
+
+    modulo_div.appendChild(timer);
+    bomba.append(modulo_div)
+}
+
 var lettere = [
     [],
     [],
@@ -146,4 +189,36 @@ function generaPassword() {
 
 }
 
-generaSimboli()
+function error() {
+    errors++;
+    console.log(errors);
+    switch (errors) {
+        case 1:
+            errors_div.innerHTML = "X";
+            break;
+        case 2: {
+            errors_div.innerHTML = "XX";
+            break;
+        }
+        case 3:
+            explode();
+            break;
+        default:
+            break;
+    }
+}
+
+function explode() {
+    console.log("BOOM!");
+    clearInterval(clock);
+    bomb_audio.fastSeek(300);
+}
+
+function start() {
+    bomb_audio.play();
+
+    generaTimer()
+    generaSimboli()
+}
+
+start();
