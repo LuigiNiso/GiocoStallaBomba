@@ -215,10 +215,10 @@ function explode() {
 }
 
 function start() {
-    bomb_audio.autoplay = true;
+    bomb_audio.play();
 
     generaTimer()
     generaSimboli()
 }
 
-start();
+
