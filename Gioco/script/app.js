@@ -111,9 +111,6 @@ function check_simboli(l, n) {
     if (user_ordine.length == 4) {
         if (equalArray(ordine, user_ordine)) {
             led.style.backgroundColor = "greenyellow";
-            hover.forEach(h => {
-
-            });
             right.play();
         } else {
             user_ordine = [];
