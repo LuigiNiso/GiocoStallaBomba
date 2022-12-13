@@ -104,7 +104,7 @@ function shuffle(array) {
 }
 
 function check_simboli(l, n) {
-    var led = document.querySelector('.led');
+    var led = document.querySelector('.simboli .led');
     if (!user_ordine.includes(l)) {
         user_ordine.push(l);
         click.play();
@@ -124,7 +124,6 @@ function check_simboli(l, n) {
             }, 500);
             led.style.backgroundColor = "red";
             error();
-            wrong.play();
         }
     }
 }
@@ -184,17 +183,128 @@ var lettere = [
     [],
     []
 ]
+var parole = ["ARINA", "BARBA", "BISTE", "BOOBS", "CACCA", "CAZZO", "CIRCO", "CIOLA", "CIUCO", "CLOWN", "DAJE!", "DARIO", "FAZZO", "FRODE", "GGGGG", "GIAMO", "GOBLI", "LEGGE", "MARZA", "MAZZO", "MUORI", "MUTUO", "NAPLE", "NEGO!", "NERO?", "NOOBS", "RICCO", "SIUUM", "SOCIO", "SORCA", "TASSE", "TOTTI", "ZANO?", "ZAZZO", "ZOZZO"];
+
+var c = [0, 0, 0, 0, 0];
+
+var parola;
+
 
 function generaPassword() {
+    let led_div = document.createElement('div');
+    led_div.classList.add("led");
+    let modulo_div = document.createElement('div');
+    modulo_div.classList.add('modulo-password');
+    var alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ?!";
+    var count = 0;
+    modulo_div.appendChild(led_div);
+    parola = parole[Math.floor(Math.random() * parole.length)];
+    for (let i = 0; i < lettere.length; i++) {
+        lettere[i].push(parola.charAt(count));
+        lettere[i].push(alfabeto[Math.floor(Math.random() * alfabeto.length)]);
+        lettere[i].push(alfabeto[Math.floor(Math.random() * alfabeto.length)]);
+        lettere[i].push(alfabeto[Math.floor(Math.random() * alfabeto.length)]);
+        lettere[i].push(alfabeto[Math.floor(Math.random() * alfabeto.length)]);
+        shuffle(lettere[i]);
+        count++;
+    }
+
+    let display = document.createElement('div');
+    display.classList.add('display');
+
+    for (let i = 0; i < 5; i++) {
+        var cifra = document.createElement('div');
+        cifra.classList.add('cifra');
+
+        let p_cifra = document.createElement('p');
+
+        p_cifra.innerHTML = lettere[i][c[i]];
+
+        let button_back = document.createElement('div');
+        let button_back_img = document.createElement('img');
+        button_back_img.src = './images/arrow.png';
+        button_back.appendChild(button_back_img)
+        button_back.classList.add('button-back');
+        button_back.setAttribute('onclick', 'changeDOWN(' + i + ')');
+        let button_front = document.createElement('button-front')
+        let button_front_img = document.createElement('img');
+        button_front.classList.add('button-front');
+        button_front_img.src = './images/arrow.png'
+        button_front.appendChild(button_front_img)
+        button_front.setAttribute('onclick', 'changeUP(' + i + ')');
+
+        cifra.appendChild(button_back);
+        cifra.appendChild(p_cifra);
+        cifra.appendChild(button_front)
+        display.appendChild(cifra);
+    }
+    button_submit = document.createElement('button');
+    button_submit.classList.add('button-submit');
+    button_submit.innerHTML = "INVIA";
+    button_submit.setAttribute("onclick", "checkPassword()")
+    modulo_div.appendChild(display);
+    bomba.append(modulo_div);
+    modulo_div.appendChild(button_submit);
+
 
 }
 
+function changeUP(n) {
+    c[n]++;
+    if (c[n] == 5) {
+        c[n] = 0;
+    }
+    var p_cifra = document.querySelectorAll('.cifra p');
+
+    p_cifra[n].innerHTML = lettere[n][c[n]];
+
+    console.log(c[n]);
+}
+
+function changeDOWN(n) {
+    c[n]--;
+    if (c[n] == -1) {
+        c[n] = 4;
+    }
+    var p_cifra = document.querySelectorAll('.cifra p');
+
+    p_cifra[n].innerHTML = lettere[n][c[n]];
+
+    console.log(c[n]);
+}
+
+function checkPassword() {
+    var led = document.querySelector('.modulo-password .led');
+    var word = "";
+
+    for (let i = 0; i < 5; i++) {
+        word += lettere[i][c[i]];
+    }
+
+    if (word == parola) {
+        console.log("RIGHT!");
+        led.style.backgroundColor = "greenyellow";
+        right.play();
+    } else {
+        led.style.backgroundColor = "red";
+        error();
+    }
+}
+
+function explode() {
+    console.log("BOOM!");
+    clearInterval(clock);
+    bomb_audio.fastSeek(300);
+}
+
 function error() {
+    wrong.play();
     errors++;
     console.log(errors);
     switch (errors) {
         case 1:
             errors_div.innerHTML = "X";
+
             break;
         case 2: {
             errors_div.innerHTML = "XX";
@@ -208,17 +318,14 @@ function error() {
     }
 }
 
-function explode() {
-    console.log("BOOM!");
-    clearInterval(clock);
-    bomb_audio.fastSeek(300);
-}
-
 function start() {
     bomb_audio.play();
 
     generaTimer()
     generaSimboli()
+    generaPassword()
 }
+
+start()
 
 
