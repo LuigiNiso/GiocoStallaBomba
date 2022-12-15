@@ -30,7 +30,7 @@ function generaSimboli() {
     let simboli_div = document.createElement('div')
     let led_div = document.createElement('div');
 
-    modulo_div.classList.add("modulo");
+    modulo_div.classList.add("modulo-simboli");
     simboli_div.classList.add("simboli");
     led_div.classList.add("led");
 
@@ -115,6 +115,8 @@ function check_simboli(l, n) {
         if (equalArray(ordine, user_ordine)) {
             led.style.backgroundColor = "greenyellow";
             right.play();
+            let modulo_simboli = document.querySelector('.modulo-simboli');
+            modulo_simboli.style.pointerEvents = "none"
         } else {
             user_ordine = [];
             setTimeout(() => {
@@ -275,6 +277,7 @@ function changeDOWN(n) {
 
 function checkPassword() {
     var led = document.querySelector('.modulo-password .led');
+    var modulo_password = document.querySelector('.modulo-password');
     var word = "";
 
     for (let i = 0; i < 5; i++) {
@@ -285,6 +288,7 @@ function checkPassword() {
         console.log("RIGHT!");
         led.style.backgroundColor = "greenyellow";
         right.play();
+        modulo_password.style.pointerEvents = "none";
     } else {
         led.style.backgroundColor = "red";
         error();
@@ -323,6 +327,7 @@ function error() {
 function start() {
     bomb_audio.play();
     musicLevel.play();
+    musicLevel.volume = "0.01";
     generaTimer()
     generaSimboli()
     generaPassword()
@@ -343,13 +348,17 @@ let soluzioni = [
     ["#0000FF", "#DF00E3", "#000000", "#FFFFFF", "#FF0000"]
 ];
 
-function generaColori() {
-    var buttons = [];
-    var choosen_colors = [];
-    let modulo_div = document.createElement('div');
-    modulo_div.classList.add('modulo-colori');
+let modulo_colori;
+let display_div;
+let button_container;
+var buttons = [];
+var choosen_colors = [];
 
-    let display_div = document.createElement('div');
+function generaColori() {
+    modulo_colori = document.createElement('div');
+    modulo_colori.classList.add('modulo-colori');
+
+    display_div = document.createElement('div');
     display_div.classList.add('display-colori');
 
     let led_container = document.createElement('div');
@@ -360,25 +369,23 @@ function generaColori() {
         led_container.appendChild(led);
     }
 
-    modulo_div.appendChild(led_container);
+    modulo_colori.appendChild(led_container);
 
     var random_word = nomi_colori[Math.floor(Math.random() * nomi_colori.length)];
 
     var random_color = colori[Math.floor(Math.random() * colori.length)];
-    console.log(random_color);
-
-    console.log("---------");
 
     display_div.innerHTML = random_word;
     display_div.style.color = random_color;
 
-    let button_container = document.createElement('div');
+    button_container = document.createElement('div');
     button_container.classList.add('button-container')
 
     var correct_color = soluzioni[colori.indexOf(random_color)][Math.floor(Math.random() * 5)];
     var correct_button = document.createElement('button');
     correct_button.style.backgroundColor = correct_color;
     choosen_colors.push(correct_color);
+    correct_button.setAttribute("onclick", "rightColor()")
 
     buttons.push(correct_button);
 
@@ -389,24 +396,98 @@ function generaColori() {
         var column = soluzioni[colori.indexOf(random_color)];
 
         if (!column.includes(color) && !choosen_colors.includes(color)) {
-            console.log(color);
             var button = document.createElement('button');
             button.style.backgroundColor = color;
+            button.setAttribute("onclick", "wrongColor()")
             buttons.push(button);
             choosen_colors.push(color);
             i++;
         }
     }
 
-    shuffle(buttons)
+    shuffle(buttons);
 
     buttons.forEach(b => {
         button_container.appendChild(b);
     });
 
-    modulo_div.appendChild(display_div);
-    modulo_div.appendChild(button_container);
-    bomba.append(modulo_div);
+    modulo_colori.appendChild(display_div);
+    modulo_colori.appendChild(button_container);
+    bomba.append(modulo_colori);
+}
+
+function nuovoLivello() {
+    buttons = [];
+    choosen_colors = [];
+    var random_word = nomi_colori[Math.floor(Math.random() * nomi_colori.length)];
+
+    var random_color = colori[Math.floor(Math.random() * colori.length)];
+
+    display_div.innerHTML = random_word;
+    display_div.style.color = random_color;
+    var old_container = document.querySelector('.modulo-colori .button-container');
+    modulo_colori.removeChild(old_container);
+    button_container = document.createElement('div');
+    button_container.classList.add('button-container')
+
+    var correct_color = soluzioni[colori.indexOf(random_color)][Math.floor(Math.random() * 5)];
+    var correct_button = document.createElement('button');
+    correct_button.style.backgroundColor = correct_color;
+    choosen_colors.push(correct_color);
+    correct_button.setAttribute("onclick", "rightColor()")
+
+    buttons.push(correct_button);
+
+    let i = 0;
+    while (buttons.length != 5) {
+        var color = colori_secondari[Math.floor(Math.random() * colori_secondari.length)];
+
+        var column = soluzioni[colori.indexOf(random_color)];
+
+        if (!column.includes(color) && !choosen_colors.includes(color)) {
+            var button = document.createElement('button');
+            button.style.backgroundColor = color;
+            button.setAttribute("onclick", "wrongColor()")
+            buttons.push(button);
+            choosen_colors.push(color);
+            i++;
+        }
+    }
+
+    shuffle(buttons);
+
+    buttons.forEach(b => {
+        button_container.appendChild(b);
+    });
+
+    modulo_colori.appendChild(button_container);
+}
+
+var lvl = 0;
+
+function rightColor() {
+    let leds = document.querySelectorAll('.modulo-colori .led-container .led');
+    leds[lvl].style.backgroundColor = "greenyellow";
+    console.log("RIGHT!");
+    lvl++;
+    if (lvl < 3) {
+        //PLAY SOUND NUOVO LIVELLO
+        nuovoLivello()
+    } else {
+        right.play();
+        modulo_colori.style.pointerEvents = "none";
+    }
+}
+
+function wrongColor() {
+    error();
+    let leds = document.querySelectorAll('.modulo-colori .led-container .led');
+    wrong.play();
+    lvl = 0;
+    leds.forEach(led => {
+        led.style.backgroundColor = "#666";
+    });
+    leds[0].style.backgroundColor = "red";
 }
 
 start();

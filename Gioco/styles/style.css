@@ -68,6 +68,25 @@ body {
   overflow: hidden;
 }
 
+.modulo-simboli{
+  margin: 10px;
+  position: relative;
+  width: 30%;
+  height: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+  background-color: rgb(202, 188, 144);
+  background-image: linear-gradient(180deg, rgb(169, 162, 148), rgb(255, 243, 200));
+  border-top: 3px solid #CCC;
+  border-right: 3px solid #CCC;
+  border-left: 4px solid #666;
+  border-bottom: 4px solid #666;
+  border: solid 5px rgb(0, 0, 0);
+  overflow: hidden;
+}
+
 .simboli{
   width: 100%;
   height: 100%;
