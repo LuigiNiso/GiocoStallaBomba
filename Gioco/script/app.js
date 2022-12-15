@@ -326,8 +326,87 @@ function start() {
     generaTimer()
     generaSimboli()
     generaPassword()
+    generaColori();
 }
 
-//ciao
+let nomi_colori = ["GIALLO", "ROSSO", "VERDE", "BLU", "NERO", "MAGENTA", "MARRONE", "CELESTE", "BIANCO", "ARANCIONE", "ROSA"];
+let colori = ["#FF0000", "#FF6B00", "#FFFF00", "#00FF00", "#009400", "#0000FF", "#00B6DE"];
+let colori_secondari = ["#FF0000", "#FF6B00", "#FFFF00", "#00FF00", "#0000FF", "#00B6DE", "#000000", "#FFFFFF", "#714526", "#DF00E3"];
+
+let soluzioni = [
+    ["#DF00E3", "#FF0000", "#00FF00", "#FFFF00", "#FFFFFF"],
+    ["#0000FF", "#000000", "#FF6B00", "#DF00E3", "#FFFF00"],
+    ["#FF0000", "#FFFF00", "#00FF00", "#0000FF", "#DF00E3"],
+    ["#FFFFFF", "#0000FF", "#FFFF00", "#000000", "#714526"],
+    ["#DF00E3", "#00FF00", "#FF0000", "#00B6DE", "#FF6B00"],
+    ["#000000", "#714526", "#0000FF", "#FFFF00", "#FFFFFF"],
+    ["#0000FF", "#DF00E3", "#000000", "#FFFFFF", "#FF0000"]
+];
+
+function generaColori() {
+    var buttons = [];
+    var choosen_colors = [];
+    let modulo_div = document.createElement('div');
+    modulo_div.classList.add('modulo-colori');
+
+    let display_div = document.createElement('div');
+    display_div.classList.add('display-colori');
+
+    let led_container = document.createElement('div');
+    led_container.classList.add('led-container');
+    for (let i = 0; i < 3; i++) {
+        let led = document.createElement('div');
+        led.classList.add('led');
+        led_container.appendChild(led);
+    }
+
+    modulo_div.appendChild(led_container);
+
+    var random_word = nomi_colori[Math.floor(Math.random() * nomi_colori.length)];
+
+    var random_color = colori[Math.floor(Math.random() * colori.length)];
+    console.log(random_color);
+
+    console.log("---------");
+
+    display_div.innerHTML = random_word;
+    display_div.style.color = random_color;
+
+    let button_container = document.createElement('div');
+    button_container.classList.add('button-container')
+
+    var correct_color = soluzioni[colori.indexOf(random_color)][Math.floor(Math.random() * 5)];
+    var correct_button = document.createElement('button');
+    correct_button.style.backgroundColor = correct_color;
+    choosen_colors.push(correct_color);
+
+    buttons.push(correct_button);
+
+    let i = 0;
+    while (buttons.length != 5) {
+        var color = colori_secondari[Math.floor(Math.random() * colori_secondari.length)];
+
+        var column = soluzioni[colori.indexOf(random_color)];
+
+        if (!column.includes(color) && !choosen_colors.includes(color)) {
+            console.log(color);
+            var button = document.createElement('button');
+            button.style.backgroundColor = color;
+            buttons.push(button);
+            choosen_colors.push(color);
+            i++;
+        }
+    }
+
+    shuffle(buttons)
+
+    buttons.forEach(b => {
+        button_container.appendChild(b);
+    });
+
+    modulo_div.appendChild(display_div);
+    modulo_div.appendChild(button_container);
+    bomba.append(modulo_div);
+}
 
 start();
