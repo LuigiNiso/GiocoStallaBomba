@@ -328,6 +328,4 @@ function start() {
     generaPassword()
 }
 
-//ciao
-
 start();
