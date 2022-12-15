@@ -19,6 +19,8 @@ const right = new Audio('./sounds/right.mp3');
 const wrong = new Audio('./sounds/wrong.mp3');
 const click = new Audio('./sounds/click.mp3');
 const bomb_audio = new Audio('./sounds/bomb.mp3');
+const explosion = new Audio('./sounds/explosion.mp3');
+const musicLevel = new Audio('./sounds/musicLevel.mp3');
 var symbols;
 
 let id;
@@ -82,8 +84,6 @@ function generaSimboli() {
     }
     symbols = document.querySelectorAll('.simboli img');
 }
-
-
 
 function shuffle(array) {
     let currentIndex = array.length, randomIndex;
@@ -294,7 +294,9 @@ function checkPassword() {
 function explode() {
     console.log("BOOM!");
     clearInterval(clock);
-    bomb_audio.fastSeek(300);
+    bomb_audio.pause();
+    explosion.play();
+    musicLevel.pause();
 }
 
 function error() {
@@ -320,12 +322,10 @@ function error() {
 
 function start() {
     bomb_audio.play();
-
+    musicLevel.play();
     generaTimer()
     generaSimboli()
     generaPassword()
 }
 
-start()
-
-
+start();

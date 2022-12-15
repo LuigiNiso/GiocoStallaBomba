@@ -9,22 +9,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ccbd4d6bc1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
+</script>
     <style type="text/css">
       @font-face {
           font-family: "Shotling";
           src: url(Shotling.ttf) format("truetype");
       }
+      @font-face{
+        font-family: "Crushed";
+        src: url(Crushed.ttf) format("truetype");
+      }
       h1.customfont { 
           font-family: "Shotling";
+      }
+      h2.customfont{
+        font-family: "Crushed";
       }
       </style>
     <title>Bomba Stalla</title>
 </head>
 <body ondragstart='return false' onselectstart='return false'>
-  <script type="text/javascript">
-    window.onload = function() {
-        alert('Ricordati di attivare la musica!')
-    }
 </script>  
   <div class="screen">
     <i class="fas fa-volume-mute fa-2x" id="sound"></i>
@@ -45,11 +50,15 @@
   <div class="menu">
     <h1 class="customfont">LA BOMBA</h1>
     <ul>
-      <li><a href="./Gioco/index.html">Nuova partita</a></li>
-      <li><a href="#">Continua</a></li>
-      <li><a href="#">Impostazioni</a></li>
+      <li><a href="Gioco/index.html">Gioca</a></li>
+      <li><a href="edge://settings/content/mediaAutoplay?search=audio">Impostazioni</a></li>
       <li><a href="#">Riconoscimenti</a></li>
+      <li><a href="Manuale_Bomba.docx" >Manuale Bomba</a></li>
     </ul>
+  </div>
+  <div>
+    <a href="https://www.twitch.tv/tumblurr"><img src="twitchLogo.png" width="4%" style="position: absolute; bottom: 20px; left: 33px;"></a>
+    <h2 class="customfont" style="position: absolute; bottom: 20px; right: 30px; letter-spacing: 10px;">JapanHaci e Nisos</h2>
   </div>
  <!--
   <div class='wrapper'>
